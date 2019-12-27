@@ -5,7 +5,6 @@ import { Button } from "../Button";
 import axios from "axios";
 import { PATH_BASE, PATH_SEARCH, PARAM_SEARCH, PARAM_PAGE, DEFAULT_QUERY} from '../../constants';
 
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -91,7 +90,6 @@ export default class App extends Component {
             onChange={this.onSearchChange}
             onSubmit={this.onSearchSubmit}
           >
-            Search
           </Search>
         </div>
         {error ? (
@@ -112,3 +110,5 @@ export default class App extends Component {
     );
   }
 }
+
+export { Table, Search, Button };
