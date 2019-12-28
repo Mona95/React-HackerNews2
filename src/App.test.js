@@ -1,8 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import Enzyme, {shallow} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import renderer from 'react-test-renderer';
 import ReactDOM from 'react-dom';
 import App, {Search, Button, Table} from './components/App';
+
+Enzyme.configure({
+  adapter : new Adapter()
+});
 
 describe('App', () => {
   
@@ -66,6 +72,13 @@ describe('Table', () => {
     const component = renderer.create(<Table {...props}/>);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it('shows two items in list', () => {
+    const element = shallow(
+      <Table {...props} />
+    );
+    expect(element.find('.table-row').length).toBe(2);
   });
 });
 
