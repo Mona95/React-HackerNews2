@@ -11,6 +11,8 @@ import {
   DEFAULT_QUERY
 } from "../../constants";
 
+const Loading = () => <div>Loading .... </div>;
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -18,10 +20,12 @@ export default class App extends Component {
       results: null,
       searchKey: "",
       searchTerm: DEFAULT_QUERY,
-      error: null
+      error: null,
+      isLoading: false
     };
   }
   fetchSearchTopStories = (searchTerm, page = 0) => {
+    this.setState({ isLoading: true });
     axios(
       `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`
     )
@@ -41,7 +45,8 @@ export default class App extends Component {
       results: {
         ...results,
         [searchKey]: { hits: updatedHits, page }
-      }
+      },
+      isLoading: false
     });
   };
 
@@ -83,7 +88,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { results, searchTerm, searchKey, error } = this.state;
+    const { results, searchTerm, searchKey, error, isLoading } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
     const list =
@@ -95,7 +100,9 @@ export default class App extends Component {
             value={searchTerm}
             onChange={this.onSearchChange}
             onSubmit={this.onSearchSubmit}
-          ></Search>
+          >
+            Search
+          </Search>
         </div>
         {error ? (
           <div className="interactions">
@@ -105,11 +112,15 @@ export default class App extends Component {
           <Table list={list} onDismiss={this.onDismiss} />
         )}
         <div className="interactions">
-          <Button
-            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
-          >
-            More
-          </Button>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Button
+              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+            >
+              More
+            </Button>
+          )}
         </div>
       </div>
     );
