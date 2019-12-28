@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../Button";
+import Proptypes from "prop-types";
 
 export const Table = ({ list, onDismiss }) => {
   const largeColumn = { width: "40%" },
@@ -27,4 +28,17 @@ export const Table = ({ list, onDismiss }) => {
       ))}
     </div>
   );
+};
+
+Table.propTypes = {
+  list: Proptypes.arrayOf(
+    Proptypes.shape({
+      objectID: Proptypes.string.isRequired,
+      author: Proptypes.string,
+      url: Proptypes.string,
+      num_comments: Proptypes.number,
+      points: Proptypes.number
+    })
+  ).isRequired,
+  onDismiss: Proptypes.func.isRequired
 };

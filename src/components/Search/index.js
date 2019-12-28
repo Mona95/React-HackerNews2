@@ -1,4 +1,5 @@
 import React from "react";
+import Proptypes from "prop-types";
 
 export const Search = ({ value, onChange, children, onSubmit }) => {
   return (
@@ -8,4 +9,11 @@ export const Search = ({ value, onChange, children, onSubmit }) => {
       <button type="submit">{children}</button>
     </form>
   );
+};
+
+Search.propTypes = {
+  value: Proptypes.string.isRequired,
+  onChange: Proptypes.func.isRequired,
+  children: Proptypes.node,
+  onSubmit: Proptypes.func.isRequired
 };
