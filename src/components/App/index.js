@@ -3,7 +3,13 @@ import { Search } from "../Search";
 import { Table } from "../Table";
 import { Button } from "../Button";
 import axios from "axios";
-import { PATH_BASE, PATH_SEARCH, PARAM_SEARCH, PARAM_PAGE, DEFAULT_QUERY} from '../../constants';
+import {
+  PATH_BASE,
+  PATH_SEARCH,
+  PARAM_SEARCH,
+  PARAM_PAGE,
+  DEFAULT_QUERY
+} from "../../constants";
 
 export default class App extends Component {
   constructor(props) {
@@ -89,8 +95,7 @@ export default class App extends Component {
             value={searchTerm}
             onChange={this.onSearchChange}
             onSubmit={this.onSearchSubmit}
-          >
-          </Search>
+          ></Search>
         </div>
         {error ? (
           <div className="interactions">
