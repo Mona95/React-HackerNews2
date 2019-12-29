@@ -1,3 +1,6 @@
+/**
+  MAIN COMPONENT HOLDING THE LOCAL STATE OF THE APPLICATION
+ */
 import React, { Component } from "react";
 import { Search } from "../Search";
 import { Table } from "../Table";
