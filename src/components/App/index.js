@@ -25,12 +25,15 @@ export default class App extends Component {
       searchTerm: DEFAULT_QUERY,
       error: null,
       isLoading: false,
-      sortKey: "NONE"
+      sortKey: "NONE",
+      isSortReverse: false
     };
   }
 
   onSort = sortKey => {
-    this.setState({ sortKey });
+    const isSortReverse =
+      this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
   };
 
   fetchSearchTopStories = (searchTerm, page = 0) => {
@@ -103,7 +106,8 @@ export default class App extends Component {
       searchKey,
       error,
       isLoading,
-      sortKey
+      sortKey,
+      isSortReverse
     } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
@@ -129,6 +133,7 @@ export default class App extends Component {
             sortKey={sortKey}
             onSort={this.onSort}
             list={list}
+            isSortReverse={isSortReverse}
             onDismiss={this.onDismiss}
           />
         )}

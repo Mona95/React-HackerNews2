@@ -11,42 +11,51 @@ const SORTS = {
   POINTS: list => sortBy(list, "points").reverse()
 };
 
-const Sort = ({ sortKey, onSort, children }) => (
-  <Button onClick={() => onSort(sortKey)} className="button-inline">
-    {children}
-  </Button>
-);
+const Sort = ({ sortKey, onSort, children, activeSort }) => {
+  const sortClass = ["button-inline"];
+  if (sortKey === activeSort) {
+    sortClass.push("button-active");
+  }
+  return (
+    <Button onClick={() => onSort(sortKey)} className={sortClass.join("")}>
+      {children}
+    </Button>
+  );
+};
 
-export const Table = ({ list, sortKey, onSort, onDismiss }) => {
+export const Table = ({ list, sortKey, onSort, isSortReverse, onDismiss }) => {
   const largeColumn = { width: "40%" },
     midColumn = { width: "30%" },
     smallColumn = { width: "10%" };
+
+  const sortedList = SORTS[sortKey](list);
+  const reversedList = isSortReverse ? sortedList.reverse() : sortedList;
   return (
     <div className="table">
       <div className="table-header">
         <span style={largeColumn}>
-          <Sort sortKey={"TITLE"} onSort={onSort}>
+          <Sort activeSort={sortKey} sortKey={"TITLE"} onSort={onSort}>
             Title
           </Sort>
         </span>
         <span style={midColumn}>
-          <Sort sortKey={"AUTHOR"} onSort={onSort}>
+          <Sort activeSort={sortKey} sortKey={"AUTHOR"} onSort={onSort}>
             Author
           </Sort>
         </span>
         <span style={smallColumn}>
-          <Sort sortKey={"COMMENTS"} onSort={onSort}>
+          <Sort activeSort={sortKey} sortKey={"COMMENTS"} onSort={onSort}>
             Comments
           </Sort>
         </span>
         <span style={smallColumn}>
-          <Sort sortKey={"POINTS"} onSort={onSort}>
+          <Sort activeSort={sortKey} sortKey={"POINTS"} onSort={onSort}>
             Points
           </Sort>
         </span>
         <span style={smallColumn}>Archive</span>
       </div>
-      {SORTS[sortKey](list).map(item => (
+      {reversedList.map(item => (
         <div key={item.objectID} className="table-row">
           <span style={largeColumn}>
             <a href={item.url}>{item.title}</a>
