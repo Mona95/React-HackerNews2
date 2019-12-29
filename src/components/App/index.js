@@ -24,9 +24,15 @@ export default class App extends Component {
       searchKey: "",
       searchTerm: DEFAULT_QUERY,
       error: null,
-      isLoading: false
+      isLoading: false,
+      sortKey: "NONE"
     };
   }
+
+  onSort = sortKey => {
+    this.setState({ sortKey });
+  };
+
   fetchSearchTopStories = (searchTerm, page = 0) => {
     this.setState({ isLoading: true });
     axios(
@@ -91,7 +97,14 @@ export default class App extends Component {
   };
 
   render() {
-    const { results, searchTerm, searchKey, error, isLoading } = this.state;
+    const {
+      results,
+      searchTerm,
+      searchKey,
+      error,
+      isLoading,
+      sortKey
+    } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
     const list =
@@ -112,7 +125,12 @@ export default class App extends Component {
             <p>Something went wrong</p>
           </div>
         ) : (
-          <Table list={list} onDismiss={this.onDismiss} />
+          <Table
+            sortKey={sortKey}
+            onSort={this.onSort}
+            list={list}
+            onDismiss={this.onDismiss}
+          />
         )}
         <div className="interactions">
           {isLoading ? (
